@@ -1,10 +1,28 @@
 # 버전관리
 
-# 1.0.0 
-  > - 25-12-10 14:49
-  > - 84437139a2b8b9d2b8df27c01ef13acd0378c1a4 
-- 전체적인 파일 디렉토리 생성
-- WinRM 연결테스트 python 생성 및 성공 (scripts/winrm_test.py)
+## 1.0.1
+  > - 25-12-10 16:09
+  > - 2cdc8e8
+- WinRM을 활용한 Windows 이벤트 로그(EVTX) 원격 수집 기능 추가
+- PowerShell 기반 EVTX Export(wevtutil epl) 자동화 구현
+- Security / System / Application 로그 Export 성공
+- 타임스탬프 + 랜덤 문자열 기반 고유 로그 디렉토리 생성 기능 추가
+- ZIP 패키징 자동화 스크립트 구현 및 정상 동작 확인
+  - scripts/remote_evtx_collect.py
+    ```
+    python3 remote_evtx_collect.py
+    ```
+- Mini-EDR v1 데이터 수집 파이프라인 기반 완성
+```powershell
+Add-LocalGroupMember -Group "Administrators" -Member "edradmin"
+```
+
+## 1.0.0 
+  > - 25-12-10 14:49  
+  > - 84437139a2b8b9d2b8df27c01ef13acd0378c1a4
+
+- 전체적인 파일 디렉토리 생성  
+- WinRM 연결 테스트 스크립트 생성 및 정상 동작 확인 (scripts/winrm_test.py)
 
 ```linux
 ┌──(kali㉿kali)-[~/openedr_v1/scripts]
