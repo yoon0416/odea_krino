@@ -20,6 +20,12 @@ Full Architecture v1.5 문서이며, v1~v6 전체 로드맵을 정의한다.
 연구 단계: **v3 ~ v6**  
 v2.2부터 **MISP Threat Intelligence Pipeline**이 포함될 예정이다.
 
+- [loadmap](https://github.com/yoon0416/openedr_v1/blob/main/roadmap.md)
+- [LICENSE](https://github.com/yoon0416/openedr_v1/blob/main/LICENSE)
+- [version(추후 릴리즈노트)](https://github.com/yoon0416/openedr_v1/blob/main/version.md)
+- [기능명세서](https://github.com/yoon0416/openedr_v1/blob/main/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
+- [Krino AI Architecture](https://github.com/yoon0416/openedr_v1/blob/main/Krino%20AI%20Architecture.md)
+  
 ---
 
 # 1. Open-Source Components
