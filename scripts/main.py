@@ -17,13 +17,13 @@ import velo_one_shot   # ★ 기존 파일명 그대로 사용 (변경 금지)
 # ---------------------------------------------------------
 def prepare_v2_report_root(username):
     """
-    ~/openedr_v1/evidence/v2_report/<username>_<YYYYMMDD_HHMM>/
+    ~/odea_krino/evidence/v2_report/<username>_<YYYYMMDD_HHMM>/
     내부에 evtx, chainsaw, osquery, velociraptor, misc 폴더 자동 생성
     """
 
     ts = time.strftime("%Y%m%d_%H%M")
 
-    base = os.path.expanduser("~/openedr_v1/evidence/v2_report")
+    base = os.path.expanduser("~/odea_krino/evidence/v2_report")
     root = os.path.join(base, f"{username}_{ts}")
 
     os.makedirs(root, exist_ok=True)

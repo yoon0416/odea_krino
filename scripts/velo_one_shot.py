@@ -4,7 +4,7 @@
 # Velociraptor "query 모드" 원샷 수집 스크립트
 # - Windows 에 사전 설치된 vr.exe 사용 (collect 말고 query)
 # - 다양한 포렌식 Artifact들을 JSONL로 수집
-# - ~/openedr_v1/evidence/v2_report/<...>/velociraptor/ 아래에 저장
+# - ~/odea_krino/evidence/v2_report/<...>/velociraptor/ 아래에 저장
 #
 # ⚠ 파일명 바꾸지 말 것: velo_one_shot.py (main.py에서 그대로 import 함)
 
@@ -154,7 +154,7 @@ def run(ip, username, password, report_root):
     Velociraptor Query 모드로 다양한 Artifact를 한 번에 수집
     - WinRM을 통해 Windows의 vr.exe를 호출
     - 여러 Artifact를 query 모드로 JSONL 수집
-    - ~/openedr_v1/evidence/v2_report/.../velociraptor/ 에 저장
+    - ~/odea_krino/evidence/v2_report/.../velociraptor/ 에 저장
     - return: 로컬 velo 결과 폴더 경로
     """
 
@@ -230,7 +230,7 @@ if __name__ == "__main__":
     ip = input("Target IP: ").strip()
     user = input("Username: ").strip()
     pw = getpass.getpass("Password: ")
-    root = os.path.expanduser("~/openedr_v1/evidence/v2_report/standalone_test")
+    root = os.path.expanduser("~/odea_krino/evidence/v2_report/standalone_test")
     os.makedirs(root, exist_ok=True)
     result_dir = run(ip, user, pw, root)
     print("결과 폴더:", result_dir)

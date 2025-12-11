@@ -150,7 +150,7 @@ if __name__ == "__main__":
     pw = getpass.getpass("Password: ")
 
     # Standalone 테스트용 — 통합 폴더 자동 생성
-    test_root = os.path.expanduser("~/openedr_v1/evidence/v2_report/standalone_test")
+    test_root = os.path.expanduser("~/odea_krino/evidence/v2_report/standalone_test")
     os.makedirs(test_root, exist_ok=True)
 
     run(ip, user, pw, test_root)

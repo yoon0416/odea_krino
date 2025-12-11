@@ -42,14 +42,14 @@ def run(evtx_dir, report_root):
         return None
 
     # Sigma rule 폴더
-    sigma_dir = os.path.expanduser("~/openedr_v1/tools/sigma/rules/windows")
+    sigma_dir = os.path.expanduser("~/odea_krino/tools/sigma/rules/windows")
     if not os.path.isdir(sigma_dir):
         print(f"[!] Sigma 룰 폴더 없음: {sigma_dir}")
         return None
 
     # Chainsaw 매핑 파일
     mapping_file = os.path.expanduser(
-        "~/openedr_v1/tools/chainsaw/mappings/sigma-event-logs-all.yml"
+        "~/odea_krino/tools/chainsaw/mappings/sigma-event-logs-all.yml"
     )
     if not os.path.isfile(mapping_file):
         print(f"[!] Chainsaw 매핑 파일 없음: {mapping_file}")
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     target = input("EVTX 폴더 경로: ").strip()
 
     # standalone 테스트용 report_root 자동 생성
-    test_root = os.path.expanduser("~/openedr_v1/evidence/v2_report/standalone_test")
+    test_root = os.path.expanduser("~/odea_krino/evidence/v2_report/standalone_test")
     os.makedirs(test_root, exist_ok=True)
 
     run(target, test_root)

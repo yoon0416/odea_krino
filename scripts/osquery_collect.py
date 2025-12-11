@@ -225,7 +225,7 @@ if __name__ == "__main__":
     user = input("Username: ").strip()
     pw = getpass.getpass("Password: ")
 
-    test_root = os.path.expanduser("~/openedr_v1/evidence/v2_report/standalone_test")
+    test_root = os.path.expanduser("~/odea_krino/evidence/v2_report/standalone_test")
     os.makedirs(test_root, exist_ok=True)
 
     run(ip, user, pw, test_root)
