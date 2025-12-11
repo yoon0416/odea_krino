@@ -4,6 +4,8 @@ import getpass
 import sys
 import os
 import base64
+import zipfile
+import time
 
 # ------------------------------
 # PowerShell Script Template
@@ -41,19 +43,23 @@ def build_b64_script(zip_path):
 """
 
 # ------------------------------
-# Kali evidence 폴더 준비
+# Kali evidence/raw 폴더 준비
 # ------------------------------
 def prepare_kali_folder():
     base_dir = os.path.expanduser("~/openedr_v1/evidence")
     raw_dir = os.path.join(base_dir, "raw")
 
-    if not os.path.isdir(base_dir):
-        os.makedirs(base_dir, exist_ok=True)
-
-    if not os.path.isdir(raw_dir):
-        os.makedirs(raw_dir, exist_ok=True)
-
+    os.makedirs(raw_dir, exist_ok=True)
     return raw_dir
+
+# ------------------------------
+# Kali evidence/extracted 폴더 준비
+# ------------------------------
+def prepare_extract_folder():
+    base_dir = os.path.expanduser("~/openedr_v1/evidence")
+    extract_dir = os.path.join(base_dir, "extracted")
+    os.makedirs(extract_dir, exist_ok=True)
+    return extract_dir
 
 # ------------------------------
 # ZIP 파일 다운로드(Base64→파일)
@@ -70,8 +76,8 @@ def download_zip(session, zip_path, save_dir):
 
     b64_data = result.std_out.decode().strip()
 
-    # 로컬 저장 경로
-    file_name = os.path.basename(zip_path)
+    # 파일명 처리 (Windows 경로 → 정규 filename)
+    file_name = os.path.basename(zip_path.replace("\\", "/"))
     local_path = os.path.join(save_dir, file_name)
 
     with open(local_path, "wb") as f:
@@ -81,10 +87,30 @@ def download_zip(session, zip_path, save_dir):
     return local_path
 
 # ------------------------------
+# ZIP 압축 해제 함수
+# ------------------------------
+def extract_evtx(zip_file_path):
+    extract_root = prepare_extract_folder()
+
+    ts = time.strftime("%Y%m%d_%H%M%S")
+    out_dir = os.path.join(extract_root, f"extract_{ts}")
+    os.makedirs(out_dir, exist_ok=True)
+
+    print(f"\n[+] ZIP 압축 해제 시작...")
+    print(f"[+] 압축 대상: {zip_file_path}")
+    print(f"[+] 압축 해제 위치: {out_dir}")
+
+    with zipfile.ZipFile(zip_file_path, 'r') as z:
+        z.extractall(out_dir)
+
+    print(f"[+] 압축 해제 완료!")
+    return out_dir
+
+# ------------------------------
 # Main Logic
 # ------------------------------
 def main():
-    print("\n===== 원격 EVTX 수집 및 ZIP 다운로드기 (WinRM) =====\n")
+    print("\n===== 원격 EVTX 수집 + ZIP 다운로드 + 압축해제 (WinRM) =====\n")
 
     target_ip = input("Target IP: ").strip()
     username = input("Username: ").strip()
@@ -129,14 +155,14 @@ def main():
     print(output)
 
     if not zip_path:
-        print("\n[!] ZIP 경로 추출 실패: 출력 로그를 확인하세요.")
+        print("\n[!] ZIP 경로 추출 실패")
         sys.exit(1)
 
     print(f"\n[+] 원격 ZIP 생성됨 → {zip_path}")
 
-    # ---------- Kali evidence 폴더 준비 ----------
+    # ---------- Kali evidence/raw 폴더 준비 ----------
     save_dir = prepare_kali_folder()
-    print(f"[+] Evidence 저장 폴더: {save_dir}")
+    print(f"[+] Evidence 저장 폴더(raw): {save_dir}")
 
     # ---------- ZIP 다운로드 ----------
     try:
@@ -145,8 +171,13 @@ def main():
         print(f"[!] ZIP 다운로드 실패: {e}")
         sys.exit(1)
 
-    print("\n[+] 원격 EVTX 수집 + ZIP 다운로드 완료!")
-    print(f"[+] 로컬 저장 경로: {local_saved_path}\n")
+    print(f"\n[+] 로컬 저장 경로: {local_saved_path}")
+
+    # ---------- ZIP 압축 해제 ----------
+    extracted_dir = extract_evtx(local_saved_path)
+    print(f"[+] EVTX 파일 저장 위치: {extracted_dir}\n")
+
+    print("[✓] 전체 작업 완료! (수집 → 다운로드 → 압축해제)")
 
 
 if __name__ == "__main__":
