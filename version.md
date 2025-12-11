@@ -5,6 +5,7 @@
 ## 1.1.0
   > - 2025-12-10 20:35
   > - 3eb7ae6
+  > - 모든 검사 항목 테스트 성공적으로 완료 ( 모든 생성형 ai에게 같은 json던지고 결과분석) 
 
 - Windows Osquery 기반 원격 시스템 스윕 기능 추가
   - WinRM을 이용해 원격 Windows에서 osqueryi.exe 실행
