@@ -1,7 +1,6 @@
 # Krino: The ODEA Forensic Intelligence Framework
 > OPEN-SOURCE • DFIR • EDR • AI  <br>
-> Research Project Period: 2025-12-10 ~ Underway <br>
-> Current Architecture Version: v2  <br>
+> Architecture v2 | 2025.12.10 ~
 > Current file timestamps: UTC-5 (EST)
 
 ### **중요 라이선스 고지**
