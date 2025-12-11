@@ -5,8 +5,7 @@
 
 
 ---
-
-# AI-Driven DFIR & EDR Research Platform  
+ 
 ## Open-Source EDR + DFIR + LLM + Threat Intelligence System
 
 **ODEA Krino**는 WinRM 기반 원격 수집, Chainsaw/Sigma 기반 행위 탐지, 
