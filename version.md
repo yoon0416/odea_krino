@@ -2,6 +2,12 @@
 
 #Main
 
+## 1.0.3
+  > - 25-12-11 09:56
+  > - beb663a
+- 다운로드 한 zip파일 압축해제 자동화까지 성공
+- 기존 remote_evtx.py 에 소스코드 추가
+
 ## 1.0.2
   > - 25-12-10 17:43
   > - f6749a5
@@ -55,7 +61,6 @@ Add-LocalGroupMember -Group "Administrators" -Member "edradmin"
   ```
 # 향후 방향
 ## 1.0.x
-- evtx 압축 풀기 
 - chainsaw + sigma로 분석
 - json 파일 저장
 
