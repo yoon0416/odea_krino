@@ -3,6 +3,7 @@
 # AI-Driven EDR Research Project (Full Architecture v1.5)
 ### Open-Source EDR + DFIR + LLM Threat Intelligence System
 > 현재 레파지토리에 적용된 아키텍처 버전은 v2이다.
+> 현재 파일 time은 UTC-5 (동부 표준시, 미국ㆍ캐나다ㆍ중남미)이다. 추후 패치예정
 
 본 문서는 WinRM 기반 원격 수집, Chainsaw/Sigma 기반 행위 탐지,  
 Osquery 기반 시스템 상태 분석을 중심으로  
