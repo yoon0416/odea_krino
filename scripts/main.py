@@ -124,6 +124,26 @@ def main():
         print(f"[!] IOC v2.1.2 실패 (파이프라인 유지): {e}")
 
     # -------------------------------------------------
+    # Ensure IOC raw layout (flat -> ioc/raw)
+    # -------------------------------------------------
+    ioc_dir = os.path.join(report_root, "ioc")
+    raw_dir = os.path.join(ioc_dir, "raw")
+    os.makedirs(raw_dir, exist_ok=True)
+
+    flat_iocs = os.path.join(ioc_dir, "iocs.json")
+    if os.path.isfile(flat_iocs):
+        os.rename(flat_iocs, os.path.join(raw_dir, "iocs.json"))
+
+    flat_attrs = os.path.join(ioc_dir, "misp_attributes.json")
+    if os.path.isfile(flat_attrs):
+        os.rename(flat_attrs, os.path.join(raw_dir, "misp_attributes.json"))
+
+    flat_sum = os.path.join(ioc_dir, "summary.json")
+    if os.path.isfile(flat_sum):
+        os.rename(flat_sum, os.path.join(raw_dir, "summary.json"))
+
+
+    # -------------------------------------------------
     # [7/7] IOC Refinement (v2.1.3 - MISP Ready)
     # -------------------------------------------------
     print("\n[7/7] IOC Refinement (v2.1.3 - MISP Ready)...\n")
