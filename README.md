@@ -1,96 +1,105 @@
 # Krino: The ODEA Forensic Intelligence Framework
-> OPEN-SOURCE • DFIR • EDR • AI  <br>
-> Architecture v2.2.0| 2025.12.10 ~ <br>
+> OPEN-SOURCE • DFIR • EDR • AI  
+> Stable releases are documented in the GitHub Releases section | 2025.12.10 ~  
 > Current file timestamps: UTC-5 (EST)
 
-
 ---
- 
+
 ## Open-Source EDR + DFIR + LLM + Threat Intelligence System
 
-**ODEA Krino**는 WinRM 기반 원격 수집, Chainsaw/Sigma 기반 행위 탐지, 
-Osquery 기반 시스템 텔레메트리, Velociraptor 기반 DFIR 아티팩트 수집을 통합하여   <br>
-**AI 기반 Threat Intelligence 및 DFIR 자동화 연구**를 수행하기 위한 플랫폼이다. <br>
+**ODEA Krino** is a platform that integrates WinRM-based remote collection,
+behavior-based detection using Chainsaw and Sigma rules,
+system telemetry via Osquery,
+and DFIR artifact collection using Velociraptor.
 
-> 본 프로젝트에서 가장 중요하게 보는 것은,  <br>
-> 개발 과정에서 병목 현상을 마주했을 때 그 문제를 끝까지 붙잡고 해결하는가가 아니라, <br> 
-> 도구를 변경하거나 방향을 수정하더라도 궁극적인 목표에 도달할 수 있는 선택을 하는가이다.
+The project is designed to conduct research on  
+**AI-driven Threat Intelligence and DFIR automation**,  
+with a focus on validating end-to-end architecture rather than individual tools.
 
-> 결국 프로젝트의 성격은 1인 아키텍처 설계 및 구현 환경에서 코드의 완성도와 빠른 MVP 도출 사이에서 명확한 우선순위 설정이 필요하다.
+> The most important aspect of this project is not whether a bottleneck
+> can be fully resolved, but whether the right decision is made to reach
+> the ultimate goal—even if that requires changing tools or direction.
 
-> ODEA KRINO 프로젝트는 <br>
-> 어떠한 병목 현상을 만나더라도 
-> 완성도 집착보다는 MVP 구현을 최우선 목표로 삼아 <br>
-> 문제를 해결하고 다음 단계로 나아가는 것을 지향한다.
+> In a single-architect design and implementation environment,
+> clear prioritization between code completeness and rapid MVP delivery
+> is required.
+
+> ODEA KRINO prioritizes MVP realization over perfection
+> and continues progressing to the next stage whenever bottlenecks are encountered.
 
 ---
 
-본 README는 **AI 세팅, 데이터 구성, 파이프라인 구조, LLM 통합 전략**을 포함한  
-Full Architecture v1.5 문서이며, v1~v6 전체 로드맵을 정의한다.
+This README represents **Full Architecture v1.5**,
+covering AI setup, data structure, pipeline design, and LLM integration strategy.
+It defines the complete roadmap from **v1 to v6**.
 
-현재 아키텍처 구현 완료: **v2.2.0**  
-연구 단계: **v3 ~ v6**  
-v2.2부터 **MISP Threat Intelligence Pipeline**이 포함될 예정이다.
+Current research phase: **v3 ~ v6**  
+~~The MISP Threat Intelligence Pipeline was planned from v2.2~~  
+> Due to attribute-related issues, MISP integration will proceed after LLM training.
 
-- [loadmap](https://github.com/yoon0416/odea_krino/blob/main/roadmap.md)
+- [Roadmap](https://github.com/yoon0416/odea_krino/blob/main/roadmap.md)
 - [LICENSE](https://github.com/yoon0416/odea_krino/blob/main/LICENSE)
-- [version(추후 릴리즈노트)](https://github.com/yoon0416/odea_krino/blob/main/version.md)
-- [기능명세서](https://github.com/yoon0416/odea_krino/blob/main/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
+- [Version History](https://github.com/yoon0416/odea_krino/blob/main/version.md)
+- [Functional Specification](https://github.com/yoon0416/odea_krino/blob/main/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
 - [Krino AI Architecture](https://github.com/yoon0416/odea_krino/blob/main/Krino%20AI%20Architecture.md)
-  
+
 ---
 
 # 1. Open-Source Components
 
-- **Chainsaw**  
-  https://github.com/WithSecureLabs/chainsaw  
-- **Sigma Rules**  
-  https://github.com/SigmaHQ/sigma  
-- **Osquery**  
-  https://github.com/osquery/osquery  
-- **Velociraptor**  
-  https://github.com/Velocidex/velociraptor  
-- **MISP (Threat Intelligence Platform)**  
-  https://github.com/MISP/MISP  
+- Chainsaw  
+  https://github.com/WithSecureLabs/chainsaw
+
+- Sigma Rules  
+  https://github.com/SigmaHQ/sigma
+
+- Osquery  
+  https://github.com/osquery/osquery
+
+- Velociraptor  
+  https://github.com/Velocidex/velociraptor
+
+- MISP (Threat Intelligence Platform)  
+  https://github.com/MISP/MISP
 
 ---
 
 # 2. Directory Structure
 
 ```
-odea_krino/                     
+odea_krino/
 │
-├── tools/                      # Chainsaw, Sigma, Osquery, YARA, Velociraptor 등
-│   ├── chainsaw/
-│   ├── sigma/
-│   ├── osquery/
-│   └── yara/
+├── tools/
+│ ├── chainsaw/
+│ ├── sigma/
+│ ├── osquery/
+│ └── yara/
 │
-├── collectors/                 # WinRM·SSH 기반 원격 수집 스크립트
-│   ├── windows/
-│   └── linux/
+├── collectors/
+│ ├── windows/
+│ └── linux/
 │
-├── pipelines/                  # v2~v3 자동화 파이프라인
-│   ├── collect/                # 데이터 수집
-│   ├── merge/                  # Evidence JSON 병합
-│   └── analyze/                # LLM/TI 분석
+├── pipelines/
+│ ├── collect/
+│ ├── merge/
+│ └── analyze/
 │
-├── evidence/                   # 수집된 로그/JSON (git 추적 금지)
-│   ├── raw/
-│   └── processed/
+├── evidence/
+│ ├── raw/
+│ └── processed/
 │
-├── rules/                      # Sigma/YARA 커스텀 룰
-│   ├── sigma/
-│   └── yara/
+├── rules/
+│ ├── sigma/
+│ └── yara/
 │
-├── models/                     # LLM 학습/추론 관련
-│   ├── datasets/
-│   ├── adapters/
-│   └── configs/
+├── models/
+│ ├── datasets/
+│ ├── adapters/
+│ └── configs/
 │
-├── scripts/                    # 실험용 스크립트
-├── config/                     # hosts, winrm.conf 등
-└── docs/                       # 아키텍처 문서, 연구 로그
+├── scripts/
+├── config/
+└── docs/
 ```
 
 ---
@@ -101,44 +110,42 @@ odea_krino/
 - Windows 11 (Agent)
 - Kali Linux / Ubuntu (Server)
 - Python 3.x
-- WinRM Remote Execution
+- WinRM remote execution
 - Chainsaw + Sigma
 - Osquery
 - YARA 4.5+
 - Velociraptor
 - MISP (v2.2+)
-- Pandoc (PDF Export)
+- Pandoc (PDF export)
 - Hugging Face Transformers
 - llama.cpp / llama-cpp-python
 
 ## AI / Hardware
 - GPU: RTX 4070 Ti (12GB)
-- Recommended Model: **Llama 3 8B**
-- Fine-tuning: **QLoRA 4-bit**
-- Quantization: **GGUF 4/8-bit**
+- Recommended model: Llama 3 8B
+- Fine-tuning method: QLoRA 4-bit
+- Quantization: GGUF 4-bit / 8-bit
 
 ## Storage Layout
-- Evidence JSON Repository  
-- DFIR Dataset Repository  
-- Threat Intelligence Dataset (v5~)  
-- Attack Pattern Knowledge Base (v6)
+- Evidence JSON repository
+- DFIR dataset repository
+- Threat Intelligence dataset (v5+)
+- Attack pattern knowledge base (v6)
 
 ---
 
 # 4. Research Objectives
 
-본 연구는 다음을 목표로 한다:
-
-1. 원격 보안 데이터 수집 구조 구축  
-2. Sigma 기반 행위 탐지 자동화  
-3. Osquery 기반 정형 텔레메트리 확보  
-4. Velociraptor 기반 DFIR 아티팩트 수집  
-5. Evidence JSON 통합(result.json)  
-6. LLM 기반 위협 보고서 자동 생성  
-7. MISP 기반 Threat Intelligence 강화(v2.2+)  
-8. DFIR Timeline Reconstruction(v4)  
-9. Adaptive Monitoring 및 Risk Scoring(v5)  
-10. Attack Learning AI 및 룰 자동 생성(v6)
+1. Establish a remote security data collection architecture
+2. Automate behavior-based detection using Sigma rules
+3. Acquire structured telemetry using Osquery
+4. Collect DFIR artifacts using Velociraptor
+5. Integrate evidence into a unified JSON format (result.json)
+6. Generate LLM-based threat analysis reports
+7. Enhance Threat Intelligence using MISP (v2.2+)
+8. DFIR timeline reconstruction (v4)
+9. Adaptive monitoring and risk scoring (v5)
+10. Attack-learning AI and automated rule generation (v6)
 
 ---
 
@@ -146,12 +153,12 @@ odea_krino/
 
 ```
 Windows Agent ── WinRM ──> Central Server
-  |                                |
-  |                     Evidence Aggregation
-  |                                |
-Chainsaw/Sigma            LLM Threat Intelligence Engine
-Osquery                   Automated Report Generator (MD/PDF)
-Velociraptor              MISP Threat Intel Enrichment (v2.2+)
+| |
+| Evidence Aggregation
+| |
+Chainsaw / Sigma LLM Threat Intelligence Engine
+Osquery Automated Report Generator (MD / PDF)
+Velociraptor MISP Threat Intelligence Enrichment (v2.2+)
 ```
 
 ---
@@ -159,52 +166,49 @@ Velociraptor              MISP Threat Intel Enrichment (v2.2+)
 # 6. Core Components
 
 ## 6.1 WinRM Remote Execution
-Agent 설치 없이 Windows 원격 조작 가능.
+Remote Windows execution without installing an agent.
 
-기능:
-- Osquery 실행  
-- Chainsaw 실행  
-- DFIR 아티팩트 수집  
-- JSON Export  
+- Osquery execution
+- Chainsaw execution
+- DFIR artifact collection
+- JSON export
 
 ---
 
 ## 6.2 Chainsaw + Sigma
-EVTX 기반 고속 행위 탐지.
+High-speed behavior-based detection using EVTX logs.
 
-출력:
-- `sigma_findings.json`
-- `evtx_hunt.json`
+Outputs:
+- sigma_findings.json
+- evtx_hunt.json
 
-탐지 예:
-- Privilege Escalation  
-- RCE  
-- Suspicious PowerShell  
-- Account Attacks  
-- Lateral Movement  
+Detection examples:
+- Privilege escalation
+- Remote code execution
+- Suspicious PowerShell activity
+- Account abuse
+- Lateral movement
 
 ---
 
 ## 6.3 Osquery
-운영체제 내부를 테이블 기반으로 조사.
+Table-based inspection of operating system state.
 
-수집 대상:
-- Processes  
-- Network Sockets  
-- Services  
-- Registry Keys  
-- Startup Items  
+- Processes
+- Network sockets
+- Services
+- Registry keys
+- Startup items
 
 ---
 
 ## 6.4 Velociraptor
-Artifacts 기반 고급 DFIR 데이터 수집.
+Artifact-based DFIR data collection.
 
-예:
-- Shimcache  
-- Amcache  
-- Prefetch  
-- SRUM  
+- Shimcache
+- Amcache
+- Prefetch
+- SRUM
 
 ---
 
@@ -212,60 +216,59 @@ Artifacts 기반 고급 DFIR 데이터 수집.
 
 ## 7.1 Data Flow
 
-1. Chainsaw → EVTX 분석  
-2. Osquery → 정형 텔레메트리  
-3. Velociraptor → DFIR 아티팩트  
-4. Agent → Server JSON 업로드  
-5. Evidence JSON 병합(result.json)  
-6. MISP Input 전송 (v2.2~)  
-7. MISP Output 기반 TI 강화  
-8. LLM 기반 분석 및 보고서 생성  
+1. Chainsaw EVTX analysis
+2. Osquery structured telemetry
+3. Velociraptor DFIR artifacts
+4. Agent to server JSON upload
+5. Evidence JSON merge (result.json)
+6. MISP input submission (v2.2+)
+7. Threat Intelligence enrichment
+8. LLM-based analysis and report generation
 
 ---
 
 ## 7.2 Evidence Structure
 
+
 ```
 evidence/
-  raw/
-    sigma.json
-    processes.json
-    network.json
-    autoruns.json
-    runkeys.json
-    velociraptor.json
-  processed/
-    result.json
+raw/
+sigma.json
+processes.json
+network.json
+autoruns.json
+runkeys.json
+velociraptor.json
+processed/
+result.json
 ```
-
 ---
 
 ## 7.3 result.json Schema
-
 ```
 {
-  "raw": {
-    "sigma": [],
-    "processes": [],
-    "network": [],
-    "autoruns": [],
-    "runkeys": [],
-    "velociraptor": []
-  },
-  "metadata": {
-    "hostname": "",
-    "collected_at": ""
-  },
-  "ioc": {
-    "hashes": [],
-    "domains": [],
-    "ips": [],
-    "file_paths": [],
-    "process_cmd": [],
-    "registry_keys": [],
-    "yara_hits": [],
-    "sigma_hits": []
-  }
+"raw": {
+"sigma": [],
+"processes": [],
+"network": [],
+"autoruns": [],
+"runkeys": [],
+"velociraptor": []
+},
+"metadata": {
+"hostname": "",
+"collected_at": ""
+},
+"ioc": {
+"hashes": [],
+"domains": [],
+"ips": [],
+"file_paths": [],
+"process_cmd": [],
+"registry_keys": [],
+"yara_hits": [],
+"sigma_hits": []
+}
 }
 ```
 
@@ -274,46 +277,47 @@ evidence/
 # 8. AI Architecture (Full Stack)
 
 ## 8.1 Model Strategy
-- Llama 3 8B  
-- DeepSeek 7B/8B  
-- Mistral 7B  
-- Phi-3  
+- Llama 3 8B
+- DeepSeek 7B / 8B
+- Mistral 7B
+- Phi-3
 
 Inference:
-- 4-bit GGUF  
-- KV Cache 최적화  
-- FlashAttention  
+- 4-bit GGUF
+- KV cache optimization
+- FlashAttention
 
 ---
 
 ## 8.2 QLoRA Fine-tuning
 
-환경:
-- RTX 4070 Ti  
-- Batch Size: 1~2  
-- LR: 1e-5 ~ 2e-5  
+Environment:
+- RTX 4070 Ti
+- Batch size: 1 to 2
+- Learning rate: 1e-5 to 2e-5
 
-파이프라인:
+Pipeline:
 ```
+Pipeline:
 Base Model (4-bit)
-      |
-    QLoRA
-      |
-  LoRA Adapters
-      |
+|
+QLoRA
+|
+LoRA Adapters
+|
 Fine-tuned Security LLM
 ```
 
 ---
 
-## 8.3 DFIR Dataset 구성
+## 8.3 DFIR Dataset Composition
 
-- Evidence JSON  
-- CoT 기반 DFIR Instruction  
-- 공격 시나리오 재구성  
-- TTP 추론  
-- IOC 분석  
-- 위험도 평가  
+- Evidence JSON
+- Chain-of-Thought DFIR instructions
+- Attack scenario reconstruction
+- TTP inference
+- IOC analysis
+- Risk evaluation
 
 ---
 
@@ -321,69 +325,64 @@ Fine-tuned Security LLM
 
 ```
 +-----------------------+
-| Security LLM Engine   |
-|  - Reasoning Module   |
-|  - DFIR Timeline      |
-|  - Rule Generator     |
-|  - Risk Scoring       |
+| Security LLM Engine |
+| - Reasoning Module |
+| - DFIR Timeline |
+| - Rule Generator |
+| - Risk Scoring |
 +-----------------------+
-          |
-      Local Inference
-          |
-      result.json
+|
+Local Inference
+|
+result.json
 ```
 
 ---
 
 # 9. Automated Reporting
 
-생성 요소:
-- Summary  
-- Suspicious Behavior  
-- Process Analysis  
-- Network Events  
-- Persistence Evidence  
-- Attack Timeline (v4+)  
-- Attacker Scenario (v4+)  
-- TTP Classification  
-- Recommendations  
-- IOC Summary  
+Generated sections:
+- Summary
+- Suspicious behavior
+- Process analysis
+- Network events
+- Persistence evidence
+- Attack timeline (v4+)
+- Attacker scenario (v4+)
+- TTP classification
+- Recommendations
+- IOC summary
 
-출력:
-- Markdown  
-- TXT  
-- PDF  
+Output formats:
+- Markdown
+- TXT
+- PDF
 
 ---
 
 # 10. Version Roadmap (v1 ~ v6)
 
-### (✓) v1 — Static Mini-EDR  
-### (✓) v2 — Automated Pipeline EDR  
-###  v2.2 — MISP Integration  
-###  v3 — Embedded AI EDR  
-###  v4 — DFIR Timeline Reconstruction  
-###  v5 — Risk Scoring & Adaptive Monitoring  
-###  v6 — Attack Learning AI  
+- v1 — Static Mini-EDR
+- v2 — Automated Pipeline EDR
+- v2.2 — MISP Integration
+- v3 — Embedded AI EDR
+- v4 — DFIR Timeline Reconstruction
+- v5 — Risk Scoring and Adaptive Monitoring
+- v6 — Attack Learning AI
 
 ---
 
 # 11. Conclusion
 
-ODEA Krino는 오픈소스 기반 EDR 구조에  
-**AI · DFIR · Threat Intelligence(MISP)** 를 결합하여
+ODEA Krino extends an open-source EDR architecture by integrating
+AI, DFIR, and Threat Intelligence (MISP) to support:
 
-- 원격 수집  
-- 행위 탐지  
-- DFIR 텔레메트리  
-- Threat Intel 강화  
-- 공격 타임라인 재구성  
-- 룰 자동 생성  
-- 적응형 모니터링  
+- Remote data collection
+- Behavior-based detection
+- DFIR telemetry acquisition
+- Threat Intelligence enrichment
+- Attack timeline reconstruction
+- Automated rule generation
+- Adaptive monitoring
 
-까지 확장하는 고급 연구 플랫폼이다.
-
-
-
----
-
+as a unified research platform.
