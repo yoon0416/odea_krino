@@ -37,11 +37,11 @@ Current research phase: **v3 ~ v6**
 ~~The MISP Threat Intelligence Pipeline was planned from v2.2~~  
 > Due to attribute-related issues, MISP integration will proceed after LLM training.
 
-- [Roadmap](https://github.com/yoon0416/odea_krino/blob/main/roadmap.md)
+- [Roadmap](https://github.com/yoon0416/odea_krino/wiki/Krino-Roadmap)
 - [LICENSE](https://github.com/yoon0416/odea_krino/blob/main/LICENSE)
-- [Version History](https://github.com/yoon0416/odea_krino/blob/main/version.md)
+- [Version History](https://github.com/yoon0416/odea_krino/blob/main/version.md) + [releases](https://github.com/yoon0416/odea_krino/releases)
 - [Functional Specification](https://github.com/yoon0416/odea_krino/blob/main/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.md)
-- [Krino AI Architecture](https://github.com/yoon0416/odea_krino/blob/main/Krino%20AI%20Architecture.md)
+- [Krino AI Architecture](https://github.com/yoon0416/odea_krino/wiki/Krino-AI-Architecture)
 
 ---
 
