@@ -1,6 +1,6 @@
 # Krino: The ODEA Forensic Intelligence Framework
 > OPEN-SOURCE • DFIR • EDR • AI  <br>
-> Architecture v2.1.4 | 2025.12.10 ~ <br>
+> Architecture v2.2.0| 2025.12.10 ~ <br>
 > Current file timestamps: UTC-5 (EST)
 
 
@@ -16,7 +16,7 @@ Osquery 기반 시스템 텔레메트리, Velociraptor 기반 DFIR 아티팩트 
 본 README는 **AI 세팅, 데이터 구성, 파이프라인 구조, LLM 통합 전략**을 포함한  
 Full Architecture v1.5 문서이며, v1~v6 전체 로드맵을 정의한다.
 
-현재 아키텍처 구현 완료: **v2.1.4**  
+현재 아키텍처 구현 완료: **v2.2.0**  
 연구 단계: **v3 ~ v6**  
 v2.2부터 **MISP Threat Intelligence Pipeline**이 포함될 예정이다.
 
