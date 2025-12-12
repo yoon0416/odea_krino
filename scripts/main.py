@@ -21,6 +21,9 @@ import ioc_extractor
 # v2.1.3 IOC Refiner (MISP-ready)
 import ioc_refiner
 
+# v2.2 MISP Event Builder (Offline)
+import build_misp_event
+
 
 # ---------------------------------------------------------
 # v2 Report Root Folder 생성
@@ -51,13 +54,15 @@ def main():
     username  = input("Username: ").strip()
     password  = getpass.getpass("Password: ").strip()
 
-    # 1) Evidence Root
+    # -------------------------------------------------
+    # [0] Evidence Root
+    # -------------------------------------------------
     report_root = prepare_v2_report_root(username)
 
     # -------------------------------------------------
-    # [1/7] EVTX
+    # [1/8] EVTX
     # -------------------------------------------------
-    print("\n[1/7] EVTX 수집 시작...\n")
+    print("\n[1/8] EVTX 수집 시작...\n")
     evtx_folder = remote_evtx_collect.run(
         target_ip, username, password, report_root
     )
@@ -66,18 +71,18 @@ def main():
         sys.exit(1)
 
     # -------------------------------------------------
-    # [2/7] Chainsaw
+    # [2/8] Chainsaw
     # -------------------------------------------------
-    print("\n[2/7] Chainsaw + Sigma 분석 시작...\n")
+    print("\n[2/8] Chainsaw + Sigma 분석 시작...\n")
     report_json = analyze_evtx.run(evtx_folder, report_root)
     if not report_json:
         print("[!] Chainsaw 분석 실패 → 중단")
         sys.exit(1)
 
     # -------------------------------------------------
-    # [3/7] OSQuery
+    # [3/8] OSQuery
     # -------------------------------------------------
-    print("\n[3/7] OSQuery Sweep 시작...\n")
+    print("\n[3/8] OSQuery Sweep 시작...\n")
     osquery_folder = osquery_collect.run(
         target_ip, username, password, report_root
     )
@@ -86,9 +91,9 @@ def main():
         sys.exit(1)
 
     # -------------------------------------------------
-    # [4/7] Velociraptor
+    # [4/8] Velociraptor
     # -------------------------------------------------
-    print("\n[4/7] Velociraptor Query 시작...\n")
+    print("\n[4/8] Velociraptor Query 시작...\n")
     velo_output = velo_one_shot.run(
         target_ip, username, password, report_root
     )
@@ -96,9 +101,9 @@ def main():
         print("[!] Velociraptor 실패 → 계속 진행")
 
     # -------------------------------------------------
-    # [5/7] Normalization (v2.2)
+    # [5/8] Evidence Normalization (v2.2)
     # -------------------------------------------------
-    print("\n[5/7] Evidence Normalization (v2.2)...\n")
+    print("\n[5/8] Evidence Normalization (v2.2)...\n")
     try:
         normalizer.normalize_report_root(
             report_root,
@@ -114,9 +119,9 @@ def main():
     print("[✓] Normalization 완료")
 
     # -------------------------------------------------
-    # [6/7] IOC Normalization (v2.1.2 - Raw)
+    # [6/8] IOC Normalization (v2.1.2 - Raw)
     # -------------------------------------------------
-    print("\n[6/7] IOC Normalization (v2.1.2 - Raw)...\n")
+    print("\n[6/8] IOC Normalization (v2.1.2 - Raw)...\n")
     try:
         sys.argv = ["ioc_extractor", report_root]
         ioc_extractor.main()
@@ -124,7 +129,7 @@ def main():
         print(f"[!] IOC v2.1.2 실패 (파이프라인 유지): {e}")
 
     # -------------------------------------------------
-    # Ensure IOC raw layout (flat -> ioc/raw)
+    # Ensure IOC raw layout (flat → ioc/raw)
     # -------------------------------------------------
     ioc_dir = os.path.join(report_root, "ioc")
     raw_dir = os.path.join(ioc_dir, "raw")
@@ -142,15 +147,24 @@ def main():
     if os.path.isfile(flat_sum):
         os.rename(flat_sum, os.path.join(raw_dir, "summary.json"))
 
-
     # -------------------------------------------------
-    # [7/7] IOC Refinement (v2.1.3 - MISP Ready)
+    # [7/8] IOC Refinement (v2.1.3 - MISP Ready)
     # -------------------------------------------------
-    print("\n[7/7] IOC Refinement (v2.1.3 - MISP Ready)...\n")
+    print("\n[7/8] IOC Refinement (v2.1.3 - MISP Ready)...\n")
     try:
         ioc_refiner.run(report_root)
     except Exception as e:
         print(f"[!] IOC v2.1.3 실패 (파이프라인 유지): {e}")
+
+    # -------------------------------------------------
+    # [8/8] MISP Event Builder (v2.2 - Offline)
+    # -------------------------------------------------
+    print("\n[8/8] MISP Event 생성 (v2.2 - Offline)...\n")
+    try:
+        build_misp_event.run(report_root)
+        print("[✓] MISP Event JSON 생성 완료")
+    except Exception as e:
+        print(f"[!] MISP Event 생성 실패 (파이프라인 유지): {e}")
 
     # -------------------------------------------------
     # Final Summary
@@ -165,6 +179,7 @@ def main():
     print(f"IOC Raw (v2.1.2)        : ioc/raw/iocs.json")
     print(f"IOC Refined (v2.1.3)    : ioc/refined/iocs_refined.json")
     print(f"MISP Attributes Ready   : ioc/refined/misp_attributes_refined.json")
+    print(f"MISP Event (v2.2)       : misp/misp_event.json")
     print("\n[✓] 전체 작업 완료!\n")
 
 
