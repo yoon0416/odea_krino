@@ -2,6 +2,12 @@
 
 #Main
 
+> ## v2.2.1
+> - MISP atturibute 이슈
+> - kali liux(server) 터짐
+> - 새로운 환경에서 git clone 전략
+> - 더이상 v2 패치 없이 바로 v3 연구시작
+
 ## 2.2.0
 - MISP Event JSON 1차 가공 완료
   > MISP 분석 및 상관분석을 위한 입력 준비 완료
