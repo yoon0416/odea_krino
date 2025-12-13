@@ -2,8 +2,8 @@
 > OPEN-SOURCE • DFIR • EDR • AI  <br>
 > Stable releases are documented in the GitHub Releases section | 2025.12.10 ~  <br>
 > Current file timestamps: UTC-5 (EST) <br>
-> 현재 V3.0.0 LLM 초기모델 추론성능 테스트 중
-  - LLM 관련 파이썬 코드는 비공개 레파지토리에서 진행 예정, 하지만 모델 세팅 방법이나 추론 테스트 코드 등은 본 레파지토리에 꾸준히 올릴 예정
+> Initial inference performance evaluation of the v3.0.0 LLM base model is currently in progress.
+  >  - LLM 관련 파이썬 코드는 비공개 레파지토리에서 진행 예정, 하지만 모델 세팅 방법이나 추론 테스트 코드 등은 본 레파지토리에 꾸준히 올릴 예정
 
 ---
 
