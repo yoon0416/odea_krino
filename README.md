@@ -2,6 +2,7 @@
 > OPEN-SOURCE • DFIR • EDR • AI  
 > Stable releases are documented in the GitHub Releases section | 2025.12.10 ~  
 > Current file timestamps: UTC-5 (EST)
+> LLM 관련 파이썬 코드는 비공개 레파지토리에서 진행 예정, 하지만 모델 세팅 방법이나 추론 테스트 코드 등은 본 레파지토리에 꾸준히 올릴 예정
 
 ---
 
