@@ -2,6 +2,15 @@
 import os
 import time
 import subprocess
+from pathlib import Path
+
+
+# ---------------------------------------------------------
+# 프로젝트 루트 계산 (scripts/ 기준)
+# ---------------------------------------------------------
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent          # scripts → odea_krino
+TOOLS_DIR = PROJECT_ROOT / "tools"
 
 
 # ---------------------------------------------------------
@@ -41,18 +50,28 @@ def run(evtx_dir, report_root):
         print(f"[!] 유효하지 않은 EVTX 경로: {evtx_dir}")
         return None
 
-    # Sigma rule 폴더
-    sigma_dir = os.path.expanduser("~/odea_krino/tools/sigma/rules/windows")
-    if not os.path.isdir(sigma_dir):
+    # ---------------------------------------------------------
+    # Sigma rule 폴더 (레포 기준 상대경로)
+    # ---------------------------------------------------------
+    sigma_dir = TOOLS_DIR / "sigma" / "rules" / "windows"
+    if not sigma_dir.is_dir():
         print(f"[!] Sigma 룰 폴더 없음: {sigma_dir}")
         return None
 
+    # ---------------------------------------------------------
     # Chainsaw 매핑 파일
-    mapping_file = os.path.expanduser(
-        "~/odea_krino/tools/chainsaw/mappings/sigma-event-logs-all.yml"
-    )
-    if not os.path.isfile(mapping_file):
+    # ---------------------------------------------------------
+    mapping_file = TOOLS_DIR / "chainsaw" / "mappings" / "sigma-event-logs-all.yml"
+    if not mapping_file.is_file():
         print(f"[!] Chainsaw 매핑 파일 없음: {mapping_file}")
+        return None
+
+    # ---------------------------------------------------------
+    # Chainsaw 실행 파일
+    # ---------------------------------------------------------
+    chainsaw_bin = TOOLS_DIR / "chainsaw" / "chainsaw_v2.13.1"
+    if not chainsaw_bin.is_file():
+        print(f"[!] Chainsaw 실행 파일 없음: {chainsaw_bin}")
         return None
 
     # ---------------------------------------------------------
@@ -64,17 +83,18 @@ def run(evtx_dir, report_root):
     print(f"    - 입력 EVTX 폴더: {evtx_dir}")
     print(f"    - Sigma 룰:       {sigma_dir}")
     print(f"    - Mapping 파일:  {mapping_file}")
+    print(f"    - Chainsaw BIN:  {chainsaw_bin}")
     print(f"    - 출력 JSON:     {output_file}\n")
 
     # ---------------------------------------------------------
     # Chainsaw 실행 명령어 구성
     # ---------------------------------------------------------
     cmd = [
-        "chainsaw",
+        str(chainsaw_bin),
         "hunt",
         evtx_dir,
-        "--sigma", sigma_dir,
-        "--mapping", mapping_file,
+        "--sigma", str(sigma_dir),
+        "--mapping", str(mapping_file),
         "--output", output_file
     ]
 
@@ -109,8 +129,9 @@ if __name__ == "__main__":
 
     target = input("EVTX 폴더 경로: ").strip()
 
-    # standalone 테스트용 report_root 자동 생성
-    test_root = os.path.expanduser("~/odea_krino/evidence/v2_report/standalone_test")
+    # standalone 테스트용 report_root 자동 생성 (레포 기준)
+    test_root = PROJECT_ROOT / "evidence" / "v2_report" / "standalone_test"
     os.makedirs(test_root, exist_ok=True)
 
-    run(target, test_root)
+    run(target, str(test_root))
+
