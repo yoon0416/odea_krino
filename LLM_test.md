@@ -72,7 +72,7 @@ Answer:
         outputs = model.generate(
             **inputs,
             max_new_tokens=512,            # ← 120 → 512로 변경 (긴 답변도 끝까지!)
-            do_sample=False,               # 결정적 추론 (네가 원하는 대로 유지)
+            do_sample=False,               # 결정적 추론
             repetition_penalty=1.15,       # ← 1.1 → 1.15 (반복 덜 하게)
             no_repeat_ngram_size=3,         # 문구 반복 방지
             # early_stopping=True 제거 ← 긴 설명 강제 종료 방지
