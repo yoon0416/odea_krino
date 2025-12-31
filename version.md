@@ -1,7 +1,7 @@
 # Main version 
 > - v3.0.0 
 > - server 1pc, agent 1pc
-
+> - 버전 2.1 이후 귀찮아서 커밋명, 날짜 누락
 ---
 
 # 릴리즈 노트
