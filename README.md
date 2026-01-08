@@ -7,6 +7,7 @@ All LLM-related source code is being researched and version-controlled in a priv
 The initial base model setup, inference test scripts, configuration details, and directory structure will be published in this repository at a later stage.
 > - 현재 LLM 기초 추론 능력 테스트 중 12월 안까지 테스트 진행 후 튜닝 및 테스트 예정
 > - LLM 학습은 26년 1월 혹은 2월달부터 진행 / 12월은 업무로 인해 시간 없음
+> - odea_krino보다 현재 mac버전인 MacKrino 프로젝트를 우선순위로 잡음 odea_krino ai추론테스트는 유지
 
 ---
 
